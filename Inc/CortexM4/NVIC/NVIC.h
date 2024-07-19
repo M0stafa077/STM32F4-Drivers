@@ -11,6 +11,7 @@
 
 /* --------------- Section : Includes --------------- */
 #include "../../Std_Types.h"
+#include "../SCB/SCB.h"
 /* --------------- Section: Macro Declarations --------------- */
 #define REG_WIDTH			(uint32_t)32
 #define REG_MAX_IDX			(uint32_t)31
@@ -115,6 +116,19 @@ typedef enum
   FPU_IRQn                    = 81,     /*!< FPU global interrupt                                              */
   SPI4_IRQn                   = 84      /*!< SPI4 global Interrupt                                              */
 } IRQn_t;
+
+/**
+ * @brief Interrupt Group Priority number of bits.
+ */
+typedef enum
+{
+	NVIC_PRIORITY_GROUP_4_BITS = 0UL,
+	NVIC_PRIORITY_GROUP_3_BITS = 4UL,
+	NVIC_PRIORITY_GROUP_2_BITS = 5UL,
+	NVIC_PRIORITY_GROUP_1_BITS = 6UL,
+	NVIC_PRIORITY_GROUP_0_BITS = 7UL
+} NVIC_PriorityGroupBits_t;
+
 /*---------------  Section: Function Declarations --------------- */
 
 /**
@@ -172,5 +186,36 @@ uint32_t NVIC_GetPending(IRQn_t IRQn);
   @note    IRQn must not be negative.
  */
 uint32_t NVIC_GetActiveStatus(IRQn_t IRQn);
+/**
+  @brief   Set Priority Grouping
+  @details Sets the priority grouping field using the required unlock sequence.
+           The parameter PriorityGroup is assigned to the field SCB->AIRCR [10:8] PRIGROUP field.
+           Only values from 0..7 are used.
+           In case of a conflict between priority grouping and available
+           priority bits (__NVIC_PRIO_BITS), the smallest possible priority group is set.
+  @param [in]      PriorityGroup  Priority grouping field.
+ */
+void NVIC_SetPriorityGrouping(uint32_t PriorityGroup);
+/**
+  @brief   Set Interrupt Priority
+  @details Sets the priority of a device specific interrupt or a processor exception.
+           The interrupt number can be positive to specify a device specific interrupt,
+           or negative to specify a processor exception.
+  @param [in]      IRQn  Interrupt number.
+  @param [in]  priority  Priority to set.
+  @note    The priority cannot be set for every processor exception.
+ */
+void NVIC_SetPriority(IRQn_t IRQn, uint32_t Priority);
+/**
+  @brief   Get Interrupt Priority
+  @details Reads the priority of a device specific interrupt or a processor exception.
+           The interrupt number can be positive to specify a device specific interrupt,
+           or negative to specify a processor exception.
+  @param [in]   IRQn  Interrupt number.
+  @return             Interrupt Priority.
+                      Value is aligned automatically to the implemented priority bits of the microcontroller.
+ */
+uint32_t NVIC_GetPriority(IRQn_t IRQn);
+
 
 #endif /* CORTEXM4_NVIC_NVIC_H_ */
