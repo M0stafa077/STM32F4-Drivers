@@ -110,3 +110,65 @@ uint32_t NVIC_GetActiveStatus(IRQn_t IRQn)
 	}
 	return 0;
 }
+
+/**
+  @brief   Set Priority Grouping
+  @details Sets the priority grouping field using the required unlock sequence.
+           The parameter PriorityGroup is assigned to the field SCB->AIRCR [10:8] PRIGROUP field.
+           Only values from 0..7 are used.
+           In case of a conflict between priority grouping and available
+           priority bits (__NVIC_PRIO_BITS), the smallest possible priority group is set.
+  @param [in]      PriorityGroup  Priority grouping field.
+ */
+void NVIC_SetPriorityGrouping(uint32_t PriorityGroup)
+{
+	/* Get the Current value of the AIRCR Register */
+	uint32_t AIRCR_Register_Value = SCB->AIRCR;
+	/* Reset the wanted bits */
+	AIRCR_Register_Value &= ~((0xFFFFUL << 16UL) | (0x07UL << 8UL));
+	/* Calculate the new register value */
+	AIRCR_Register_Value |= (0x05FA << 16UL) | ((uint32_t)PriorityGroup << 8UL);
+	/* Write the new register value */
+	SCB->AIRCR = AIRCR_Register_Value;
+}
+
+/**
+  @brief   Set Interrupt Priority
+  @details Sets the priority of a device specific interrupt or a processor exception.
+           The interrupt number can be positive to specify a device specific interrupt,
+           or negative to specify a processor exception.
+  @param [in]      IRQn  Interrupt number.
+  @param [in]  priority  Priority to set.
+  @note    The priority cannot be set for every processor exception.
+ */
+void NVIC_SetPriority(IRQn_t IRQn, uint32_t Priority)
+{
+	if(IRQn >= 0)
+	{
+		NVIC->IP[(uint32_t)IRQn] = (uint8_t)(((uint8_t)Priority << 4UL) & 0xFFUL);
+	}
+	else
+	{
+
+	}
+}
+/**
+  @brief   Get Interrupt Priority
+  @details Reads the priority of a device specific interrupt or a processor exception.
+           The interrupt number can be positive to specify a device specific interrupt,
+           or negative to specify a processor exception.
+  @param [in]   IRQn  Interrupt number.
+  @return             Interrupt Priority.
+                      Value is aligned automatically to the implemented priority bits of the microcontroller.
+ */
+uint32_t NVIC_GetPriority(IRQn_t IRQn)
+{
+	if(IRQn >= 0)
+	{
+		return (NVIC->IP[(uint32_t)IRQn] >> 4) & 0x0FUL;
+	}
+	else
+	{
+		return 0UL;
+	}
+}
