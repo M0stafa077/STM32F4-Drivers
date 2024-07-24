@@ -10,7 +10,7 @@
 #define CORTEXM4_NVIC_NVIC_H_
 
 /* --------------- Section : Includes --------------- */
-#include "../../Std_Types.h"
+#include "Common/Std_Types.h"
 #include "../SCB/SCB.h"
 /* --------------- Section: Macro Declarations --------------- */
 #define REG_WIDTH			(uint32_t)32
