@@ -9,7 +9,7 @@
 #define CORTEXM4_SCB_SCB_H_
 
 /* --------------- Section : Includes --------------- */
-#include "../../Std_Types.h"
+#include "Common/Std_Types.h"
 /* --------------- Section: Macro Declarations --------------- */
 #define SCB_BASE_ADDRESS			0xE000ED00
 
