@@ -8,35 +8,44 @@
 
 #include <stdint.h>
 #include "CortexM4/NVIC/NVIC.h"
+#include "Common/stm32f401_registers.h"
+#include "MCAL/RCC/rcc.h"
 
-static volatile uint32_t isr_flag = 0;
-static volatile uint32_t Interrupt_Active_Status = 0;
-static uint32_t IRQ_Status = 0;
+
+void RCC_Clock_Config();
+
+int x = 0;
 
 int main(void)
 {
-	NVIC_EnableIRQ(EXTI4_IRQn);
 
-	Interrupt_Active_Status = NVIC_GetActiveStatus(EXTI4_IRQn);
-
-	IRQ_Status = NVIC_GetEnableIRQ(EXTI4_IRQn);
-
-	NVIC_SetPending(EXTI4_IRQn);
-
-	Interrupt_Active_Status = NVIC_GetActiveStatus(EXTI4_IRQn);
-
-	NVIC_DisableIRQ(EXTI4_IRQn);
-
-	IRQ_Status = NVIC_GetEnableIRQ(EXTI4_IRQn);
-
+	RCC_Clock_Config();
     while(1)
     {
-
+    	x++;
+    	if(100 == x) x = 0;
     }
 }
 
-void EXTI4_IRQHandler(void)
+void RCC_Clock_Config()
 {
-	isr_flag = 1;
-	Interrupt_Active_Status = NVIC_GetActiveStatus(EXTI4_IRQn);
+	RCC_InitConfigs_t rcc_cfgs =
+	{
+		.Oscillator_Configurations = { RCC_HSE_OFF, RCC_HSI_ON, RCC_PLLI2S_OFF },
+		.Clock_Source = RCC_CLOCK_SOURCE_PLL,
+		.PLL_Configurations = {
+				RCC_PLL_SOURE_HSI,		// Clock Src
+				168,					// N
+				8,						// M
+				4,						// Q
+				RCC_PLL_P_DIVIDE_BY_4	// P
+
+		},
+		.AHB_Prescaler = SYSTEM_CLOCK_NOT_DIVIDED,
+		.APB1_Prescaler = APB1_CLOCK_DIVIDED_BY_2,
+		.APB2_Prescaler = APB2_CLOCK_NOT_DIVIDED
+	};
+	RCC_Init(&rcc_cfgs);
 }
+
+
