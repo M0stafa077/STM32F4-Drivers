@@ -25,7 +25,8 @@ Std_ReturnType_t RCC_Init(const RCC_InitConfigs_t * rcc_cfgs)
 		RCC_Osc_Config(rcc_cfgs);
 
 		/* 2. Configure the Clock Source */
-		RCC_PLL_Config(rcc_cfgs);
+		if(rcc_cfgs->Clock_Source == RCC_CLOCK_SOURCE_PLL)
+			{ RCC_PLL_Config(rcc_cfgs); }
 		RCC_ClockSource_Config(rcc_cfgs->Clock_Source);
 
 		/* 3. Configure all the Prescalers */
