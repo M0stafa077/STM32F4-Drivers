@@ -20,13 +20,16 @@ typedef unsigned long 			uint32_t;
 
 typedef uint8_t 				Std_ReturnType_t;
 
-#define E_OK					(Std_ReturnType_t)(0x00)
-#define E_NOT_OK				(Std_ReturnType_t)(0x01)
+#define E_OK					(Std_ReturnType_t)(0x00U)
+#define E_NOT_OK				(Std_ReturnType_t)(0x01U)
 
 
 #define SET_BIT(REG, POS)		((REG) |= (uint32_t)((1UL) << (POS)))
 #define CLEAR_BIT(REG, POS)		((REG) &= ~(1UL << (POS)))
+#define READ_BIT(REG, POS)		((REG >> POS) & 1UL)
 
 #define NULL					((void *)(0))
+
+typedef void (*Interrupt_Handler_t)(void);
 
 #endif /* STD_TYPES_H_ */
