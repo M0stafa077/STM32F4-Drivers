@@ -54,4 +54,76 @@ typedef struct
 } RCC_Registers_t;
 /* -------------------------- RCC Defines End ----------------------------- */
 
+/* -------------------------- DMA Defines Start ----------------------------- */
+#define DMA1_BASE_ADDRESS		0x40026000
+#define DMA1					((DMA_Registers_t *)(DMA1_BASE_ADDRESS))
+#define DMA2_BASE_ADDRESS		0x40026400
+#define DMA2					((DMA_Registers_t *)(DMA2_BASE_ADDRESS))
+
+/*
+ * @defgroup	DMA1 Streams
+ */
+#define DMA1_STR0_BASE_ADDRESS	(DMA1_BASE_ADDRESS + 0x10)
+#define DMA1_STREAM0			((DMA_Stream_Registers_t *)(DMA1_STR0_BASE_ADDRESS))
+#define DMA1_STR1_BASE_ADDRESS	(DMA1_BASE_ADDRESS + 0x28)
+#define DMA1_STREAM1			((DMA_Stream_Registers_t *)(DMA1_STR1_BASE_ADDRESS))
+#define DMA1_STR2_BASE_ADDRESS	(DMA1_BASE_ADDRESS + 0x40)
+#define DMA1_STREAM2			((DMA_Stream_Registers_t *)(DMA1_STR2_BASE_ADDRESS))
+#define DMA1_STR3_BASE_ADDRESS	(DMA1_BASE_ADDRESS + 0x58)
+#define DMA1_STREAM3			((DMA_Stream_Registers_t *)(DMA1_STR3_BASE_ADDRESS))
+#define DMA1_STR4_BASE_ADDRESS	(DMA1_BASE_ADDRESS + 0x70)
+#define DMA1_STREAM4			((DMA_Stream_Registers_t *)(DMA1_STR4_BASE_ADDRESS))
+#define DMA1_STR5_BASE_ADDRESS	(DMA1_BASE_ADDRESS + 0x88)
+#define DMA1_STREAM5			((DMA_Stream_Registers_t *)(DMA1_STR5_BASE_ADDRESS))
+#define DMA1_STR6_BASE_ADDRESS	(DMA1_BASE_ADDRESS + 0xA0)
+#define DMA1_STREAM6			((DMA_Stream_Registers_t *)(DMA1_STR6_BASE_ADDRESS))
+#define DMA1_STR7_BASE_ADDRESS	(DMA1_BASE_ADDRESS + 0xB8)
+#define DMA1_STREAM7			((DMA_Stream_Registers_t *)(DMA1_STR7_BASE_ADDRESS))
+
+/*
+ * @defgroup	DMA2 Streams
+ */
+#define DMA2_STR0_BASE_ADDRESS	(DMA2_BASE_ADDRESS + 0x10)
+#define DMA2_STREAM0			((DMA_Stream_Registers_t *)(DMA2_STR0_BASE_ADDRESS))
+#define DMA2_STR1_BASE_ADDRESS	(DMA2_BASE_ADDRESS + 0x28)
+#define DMA2_STREAM1			((DMA_Stream_Registers_t *)(DMA2_STR1_BASE_ADDRESS))
+#define DMA2_STR2_BASE_ADDRESS	(DMA2_BASE_ADDRESS + 0x40)
+#define DMA2_STREAM2			((DMA_Stream_Registers_t *)(DMA2_STR2_BASE_ADDRESS))
+#define DMA2_STR3_BASE_ADDRESS	(DMA2_BASE_ADDRESS + 0x58)
+#define DMA2_STREAM3			((DMA_Stream_Registers_t *)(DMA2_STR3_BASE_ADDRESS))
+#define DMA2_STR4_BASE_ADDRESS	(DMA2_BASE_ADDRESS + 0x70)
+#define DMA2_STREAM4			((DMA_Stream_Registers_t *)(DMA2_STR4_BASE_ADDRESS))
+#define DMA2_STR5_BASE_ADDRESS	(DMA2_BASE_ADDRESS + 0x88)
+#define DMA2_STREAM5			((DMA_Stream_Registers_t *)(DMA2_STR5_BASE_ADDRESS))
+#define DMA2_STR6_BASE_ADDRESS	(DMA2_BASE_ADDRESS + 0xA0)
+#define DMA2_STREAM6			((DMA_Stream_Registers_t *)(DMA2_STR6_BASE_ADDRESS))
+#define DMA2_STR7_BASE_ADDRESS	(DMA2_BASE_ADDRESS + 0xB8)
+#define DMA2_STREAM7			((DMA_Stream_Registers_t *)(DMA2_STR7_BASE_ADDRESS))
+
+
+/**
+  * @brief Direct-Memory-Access
+  */
+typedef struct
+{
+	volatile uint32_t CR;     /*!< DMA stream x configuration register      */
+	volatile uint32_t NDTR;   /*!< DMA stream x number of data register     */
+	volatile uint32_t PAR;    /*!< DMA stream x peripheral address register */
+	volatile uint32_t M0AR;   /*!< DMA stream x memory 0 address register   */
+	volatile uint32_t M1AR;   /*!< DMA stream x memory 1 address register   */
+	volatile uint32_t FCR;    /*!< DMA stream x FIFO control register       */
+} DMA_Stream_Registers_t;
+
+typedef struct
+{
+	volatile uint32_t LISR;   /*!< DMA low interrupt status register,      Address offset: 0x00 */
+	volatile uint32_t HISR;   /*!< DMA high interrupt status register,     Address offset: 0x04 */
+	volatile uint32_t LIFCR;  /*!< DMA low interrupt flag clear register,  Address offset: 0x08 */
+	volatile uint32_t HIFCR;  /*!< DMA high interrupt flag clear register, Address offset: 0x0C */
+	DMA_Stream_Registers_t Streams[8];
+} DMA_Registers_t;
+
+
+/* -------------------------- RCC Defines End ----------------------------- */
+
 #endif /* COMMON_STM32F401_REGISTERS_H_ */
