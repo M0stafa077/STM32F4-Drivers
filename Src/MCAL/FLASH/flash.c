@@ -43,7 +43,27 @@ Std_ReturnType_t Flash_Erase_Sector(const Flash_Sector_t Sector)
 	return retVal;
 }
 
-Std_ReturnType_t Flash_Erase_Mass(void);
+Std_ReturnType_t Flash_Erase_Mass(void)
+{
+	Std_ReturnType_t retVAl = E_OK;
+
+	/* 1. Wait for the Flash Memory to be free */
+	FLASH_WAIT_FOR_COMPLETION();
+
+	/* 2. Unlock the Control register */
+	retVAl |= Flash_Unlock();
+
+	/* 3. Set the MER bit */
+	FLASH->CR |= (1UL << 2);
+
+	/* 5. Start the erase operation */
+	FLASH_START_OPERATION();
+
+	/* 6. Wait for the Flash to complete the operation */
+	FLASH_WAIT_FOR_COMPLETION();
+
+	return retVAl;
+}
 
 Std_ReturnType_t Flash_Program(uint32_t address, uint32_t data);
 
