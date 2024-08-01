@@ -11,26 +11,50 @@
 #include "Common/stm32f401_registers.h"
 #include "MCAL/RCC/rcc.h"
 #include "CortexM4/SysTick/SysTick.h"
+#include "MCAL/DMA/dma.h"
+#include "MCAL/FLASH/flash.h"
 
 void RCC_Clock_Config();
 
 
-static volatile int x = 0;
+static volatile uint32_t x = 0;
 Std_ReturnType_t retVal = E_OK;
 
-void SysTick_ExcepHandler(void)
+
+DMA_InitTypeDef dma_cfgs =
 {
-	x++;
-}
+	.Channel = DMA_CHANNEL_5,
+	.Direction = DMA_PREPH_TO_MEMORY,
+	.MemInc = DMA_MINC_ENABLE,
+	.Mode = DMA_NORMAL,
+	.PeriphInc = DMA_PINC_DISABLE,
+	.Priority = DMA_PRIORITY_MEDIUM
+};
+
+DMA_Stream_InitCfgs_t stream_cfgs =
+{
+	.Memory_Address = (uint32_t)&x,
+	.No_Of_Items = 15000,
+	.Peripheral_Address = 0x4001204C,
+	.Stream_Idx = 0
+};
 
 int main(void)
 {
 	NVIC_SetPriorityGrouping(NVIC_PRIORITY_GROUP_2_BITS);
 	RCC_Clock_Config();
-	uint32_t No_Of_Ticks = 2000000;
-	retVal = SysTick_Init(No_Of_Ticks);
 
-	retVal = SysTick_PeriodicInterval(No_Of_Ticks, SysTick_ExcepHandler);
+
+	//uint32_t No_Of_Ticks = 2000000;
+	//retVal = SysTick_Init(No_Of_Ticks);
+
+//	retVal = SysTick_PeriodicInterval(No_Of_Ticks, SysTick_ExcepHandler);
+
+//	retVal |= DMA1_Init(&dma_cfgs, &stream_cfgs);
+
+	retVal |= Flash_Erase_Sector(FLASH_SECTOR_5);
+
+	retVal |= Flash_Erase_Mass();
 
     while(1)
     {
@@ -38,6 +62,10 @@ int main(void)
     }
     return 0;
 }
+
+
+void SysTick_ExcepHandler(void)
+{ x++; }
 
 void RCC_Clock_Config()
 {
