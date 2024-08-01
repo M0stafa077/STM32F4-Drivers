@@ -123,7 +123,26 @@ typedef struct
 	DMA_Stream_Registers_t Streams[8];
 } DMA_Registers_t;
 
-
 /* -------------------------- RCC Defines End ----------------------------- */
+
+
+
+/* -------------------------- FLASH Defines Start ----------------------------- */
+
+#define FLASH_BASE_ADDRESS			0x40023C00
+#define FLASH						((FLASH_Registers_t * )(FLASH_BASE_ADDRESS))
+
+
+typedef struct
+{
+	volatile uint32_t ACR;     		/*!< FLASH access control register, Address offset: 0x00 */
+	volatile uint32_t KEYR;    		/*!< FLASH key register, Address offset: 0x04 */
+	volatile uint32_t OPTKEYR; 		/*!< FLASH option key register, Address offset: 0x08 */
+	volatile uint32_t SR;      		/*!< FLASH status register, Address offset: 0x0C */
+	volatile uint32_t CR;      		/*!< FLASH control register, Address offset: 0x10 */
+	volatile uint32_t OPTCR;		/*!< FLASH option Control register, Address offset: 0x14*/
+} FLASH_Registers_t;
+
+/* -------------------------- FLASH Defines End ----------------------------- */
 
 #endif /* COMMON_STM32F401_REGISTERS_H_ */
