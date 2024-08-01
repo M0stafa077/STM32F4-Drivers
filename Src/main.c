@@ -44,21 +44,22 @@ int main(void)
 	NVIC_SetPriorityGrouping(NVIC_PRIORITY_GROUP_2_BITS);
 	RCC_Clock_Config();
 
-
-	//uint32_t No_Of_Ticks = 2000000;
-	//retVal = SysTick_Init(No_Of_Ticks);
-
+//	uint32_t No_Of_Ticks = 2000000;
+//	retVal = SysTick_Init(No_Of_Ticks);
 //	retVal = SysTick_PeriodicInterval(No_Of_Ticks, SysTick_ExcepHandler);
-
 //	retVal |= DMA1_Init(&dma_cfgs, &stream_cfgs);
+//	retVal |= Flash_Erase_Sector(FLASH_SECTOR_5);
+//	retVal |= Flash_Erase_Mass();
+//	retVal |= Flash_Program(&x, 0x12345678);
+//	retVal |= Flash_Program(&x, 0x000000AA);
+//	retVal |= Flash_SetReadProtection(FLASH_READ_PROTECT_LEV0);
+//	retVal |= Flash_SetWriteProtection(FLASH_SECTOR_5);
 
-	retVal |= Flash_Erase_Sector(FLASH_SECTOR_5);
 
-	retVal |= Flash_Erase_Mass();
 
     while(1)
     {
-
+//    	x++;
     }
     return 0;
 }
